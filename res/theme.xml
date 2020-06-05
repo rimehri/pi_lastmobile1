@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<resource majorVersion="1" minorVersion="11" useXmlUI="false">
+    <image name="092414-control-del-stock.jpg"  />
+    <image name="IconFont.borderBottom_1.png" type="multi"  />
+    <image name="IconFont.borderBottomL_1.png" type="multi"  />
+    <image name="IconFont.borderBottomR_1.png" type="multi"  />
+    <image name="IconFont.borderCenter_1.png" type="multi"  />
+    <image name="IconFont.borderLeft_1.png" type="multi"  />
+    <image name="IconFont.borderRight_1.png" type="multi"  />
+    <image name="IconFont.borderTop_1.png" type="multi"  />
+    <image name="IconFont.borderTopL_1.png" type="multi"  />
+    <image name="IconFont.borderTopR_1.png" type="multi"  />
+    <image name="logo-final.gif"  />
+    <image name="menu.png"  />
+    <theme name="Theme">
+        <val key="@includeNativeBool" value="true" />
+        <border key="IconFont.border" type="image" i1="IconFont.borderTop_1.png" i2="IconFont.borderBottom_1.png" i3="IconFont.borderLeft_1.png" i4="IconFont.borderRight_1.png" i5="IconFont.borderTopL_1.png" i6="IconFont.borderTopR_1.png" i7="IconFont.borderBottomL_1.png" i8="IconFont.borderBottomR_1.png" i9="IconFont.borderCenter_1.png" />
+        <val key="IconFont.fgColor" value="ffffff" />
+        <font key="IconFont.font" type="ttf" face="0" style="0" size="0" name="fontello.ttf" family="fontello" sizeSettings="2" actualSize="12.0" />
+        <val key="IconFont.transparency" value="0" />
+    </theme>
+</resource>
