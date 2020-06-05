@@ -32,17 +32,16 @@ public class accueil extends Form{
         setTitle("Page d'Accueil");
         setLayout(BoxLayout.y());
         
-        add(new Label("Helex Stock"));
+        add(new Label("Helix Stock"));
         Button reclamation = new Button("Gestion Reclamation ");
         Button fournisseur = new Button("Gestion Fournisseurs ");
-                //Button Commande = new Button("Gestion Commande ");
-                 Button Commande2 = new Button("Gestion Commande2 ");
+                
+        Button Commande2 = new Button("Gestion Commande ");
 
 
         
-        reclamation.addActionListener(e->new ListReclamationForm(accueill).show());
-        fournisseur.addActionListener(e-> new Homefournisseur(accueill).show());
-       // Commande.addActionListener(e->{new commandefafffich(accueill).show(); });
+       reclamation.addActionListener(e->new ListReclamationForm(accueill).show());
+       fournisseur.addActionListener(e-> new Homefournisseur(accueill).show());
        Commande2.addActionListener(e->new commandeaff2(accueill).show());
         
         addAll(reclamation,fournisseur,Commande2);
@@ -69,24 +68,22 @@ public class accueil extends Form{
     
     
 }
-    // copier contenu constructeur 
 
     public accueil() {
-        accueill=this;
+           accueill=this;
         setTitle("Page d'Accueil");
         setLayout(BoxLayout.y());
         
-        add(new Label("Helex Stock"));
+        add(new Label("Helix Stock"));
         Button reclamation = new Button("Gestion Reclamation ");
         Button fournisseur = new Button("Gestion Fournisseurs ");
-                //Button Commande = new Button("Gestion Commande ");
-                 Button Commande2 = new Button("Gestion Commande2 ");
+                
+        Button Commande2 = new Button("Gestion Commande ");
 
 
         
-        reclamation.addActionListener(e->new ListReclamationForm(accueill).show());
-        fournisseur.addActionListener(e-> new Homefournisseur(accueill).show());
-       // Commande.addActionListener(e->{new commandefafffich(accueill).show(); });
+       reclamation.addActionListener(e->new ListReclamationForm(accueill).show());
+       fournisseur.addActionListener(e-> new Homefournisseur(accueill).show());
        Commande2.addActionListener(e->new commandeaff2(accueill).show());
         
         addAll(reclamation,fournisseur,Commande2);

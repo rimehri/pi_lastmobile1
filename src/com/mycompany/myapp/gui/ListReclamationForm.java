@@ -40,379 +40,342 @@ import java.util.ArrayList;
  *
  * @author admin
  */
-public class ListReclamationForm  extends Form{
+public class ListReclamationForm extends Form {
 
     SpanLabel lb;
     Form malek;
     String[] commandes = {"Modifier", "Details", "Supprimer"};
-       ServiceReclamation myService = new ServiceReclamation();
-        ArrayList<Reclamation> list2 = myService.getAllrecs();
-        ArrayList<Reclamation> list = list2;
-        ArrayList<produit> products = new ArrayList<>() ;
-        ArrayList<CategorieR> categories = new ArrayList<>() ;
+    ServiceReclamation myService = new ServiceReclamation();
+    ArrayList<Reclamation> list2 = myService.getAllrecs();
+    ArrayList<Reclamation> list = list2;
+    ArrayList<produit> products = new ArrayList<>();
+    ArrayList<CategorieR> categories = new ArrayList<>();
+    accueil a= new accueil();
+
     public ListReclamationForm(Form previous) {
-        if ( products.size() > 0 ) {
+        if (products.size() > 0) {
         } else {
-           //products = myService.parseProducts();
-           products = myService.getAllProducts();
+            //products = myService.parseProducts();
+            products = myService.getAllProducts();
         }
-        if ( categories.size() > 0 ) {
+        if (categories.size() > 0) {
         } else {
-          // categories = myService.parseCategories();
-           categories = myService.getAllCategories();
+            // categories = myService.parseCategories();
+            categories = myService.getAllCategories();
         }
-        malek=this;
+        malek = this;
         setTitle("les Reclamations");
         setLayout(BoxLayout.y());
-        
+
         Toolbar.setGlobalToolbar(true);
-/*
+        /*
 accueilf.getToolbar().addSearchCommand(e -> {
-});*/           
-                Style s = UIManager.getInstance().getComponentStyle("TitleCommand");
-                FontImage icon = FontImage.createMaterial(FontImage.MATERIAL_MENU, s);
-                TextField searchField = new TextField("", "Search..."); 
-                searchField.getHintLabel().setUIID("Title");
-                searchField.setUIID("Title");
-                searchField.getAllStyles().setAlignment(Component.LEFT);
-                malek.getToolbar().setTitleComponent(searchField);
-                FontImage searchIcon = FontImage.createMaterial(FontImage.MATERIAL_SEARCH, s);
-                malek.getStyle().setBgColor(ColorUtil.WHITE);
-                malek.getStyle().setBgTransparency(255);
- if (list.isEmpty()) {
+});*/
+        Style s = UIManager.getInstance().getComponentStyle("TitleRecl");
+        FontImage icon = FontImage.createMaterial(FontImage.MATERIAL_MENU, s);
+        TextField searchField = new TextField("", "Search...");
+        /*searchField.getHintLabel().setUIID("Title");*/
+        searchField.setUIID("Title");
+        searchField.getAllStyles().setAlignment(Component.LEFT);
+        malek.getToolbar().setTitleComponent(searchField);
+        FontImage searchIcon = FontImage.createMaterial(FontImage.MATERIAL_SEARCH, s);
+        malek.getStyle().setBgColor(ColorUtil.WHITE);
+        malek.getStyle().setBgTransparency(255);
+        if (list.isEmpty()) {
             SpanLabel lb = new SpanLabel(" aucune reclamation !");
-           malek.add(lb);
+            malek.add(lb);
         } else {
 
             for (Reclamation r : list) {
                 MultiButton b = new MultiButton("");
-                /*
-                int size = Display.getInstance().convertToPixels(5, true);
-                EncodedImage placeholder = EncodedImage.createFromImage(icon, focusScrolling).createFromImage(Image.createImage(50, 200 / 5, 0xffff0000), true);
-                URLImage background = URLImage.createToStorage(placeholder, "400px-AGameOfThrones.jpg",
-        "http://awoiaf.westeros.org/images/thumb/9/93/AGameOfThrones.jpg/400px-AGameOfThrones.jpg");
-                b.setIcon(background);
-                */
-                /*
-                FontImage fi = FontImage.createFixed("" + FontImage.MATERIAL_PERSON, FontImage.getMaterialDesignFont(), 0xff, size, size);
-                b.setIcon(fi);*/
+
                 b.getStyle().setBgColor(ColorUtil.WHITE);
                 b.getStyle().setBgTransparency(255);
                 b.getUnselectedStyle().setBorder(Border.createGrooveBorder(1, ColorUtil.GRAY));
                 String etat = "";
-                if (r.isEtat() == true){
+                if (r.isEtat() == true) {
                     etat = "traitée";
-                } else etat = "non traitée";
+                } else {
+                    etat = "non traitée";
+                }
                 b.setTextLine2("Désignation \n:" + r.getDesignation());
                 b.setTextLine3("Etat  " + etat);
-                  malek.add(b);
-                  
-                  
-                  
-                   b.addActionListener(e -> {
-                       if (r.isEtat()== true) {
-                           ReclamationDetails k = new ReclamationDetails(r);
-                           k.show();
-                       } else {
-                    Dialog d = new Dialog();
-                    d.setLayout(BoxLayout.y());
-                    d.getContentPane().setScrollableY(true);
-                    for (String cmd : commandes) {
-                        MultiButton mb = new MultiButton(cmd);
-                        d.add(mb);
-                        mb.addActionListener(ee -> {
+                malek.add(b);
 
-                            switch (cmd) {
+                b.addActionListener(e -> {
+                    if (r.isEtat() == true) {
+                        ReclamationDetails k = new ReclamationDetails(r);
+                        k.show();
+                    } else {
+                        Dialog d = new Dialog();
+                        d.setLayout(BoxLayout.y());
+                        d.getContentPane().setScrollableY(true);
+                        for (String cmd : commandes) {
+                            MultiButton mb = new MultiButton(cmd);
+                            d.add(mb);
+                            mb.addActionListener(ee -> {
 
-                                case "Modifier":
-                                ReclamationUpdate  c = null;
-                            {
-                                try {
-                                    c = new ReclamationUpdate(r, products, categories);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
+                                switch (cmd) {
+
+                                    case "Modifier":
+                                        ReclamationUpdate c = null;
+                                         {
+                                            try {
+                                                c = new ReclamationUpdate(r, products, categories);
+                                            } catch (IOException ex) {
+                                                ex.printStackTrace();
+                                            }
+                                        }
+                                        c.show();
+
+                                        break;
+                                    case "Supprimer":
+                                        delete(r.getId(), d);
+                                        break;
+                                    default:
+
+                                        ReclamationDetails k = new ReclamationDetails(r);
+                                        k.show();
+
+                                        break;
                                 }
-                            }
-                                c.show();
-                                    
-                                    break;
-                                case "Supprimer":   
-                                    delete(r.getId(), d);  
-                                    break;
-                                default:
 
-                            
-                                   
-                                 ReclamationDetails k = new ReclamationDetails(r);
-                                   k.show();
-                            
-                                   
-                                    
-                                    break;
-                            }
-
-                            
-                        });
+                            });
+                        }
+                        d.showPopupDialog(b);
                     }
-                    d.showPopupDialog(b);
-                   }
                 });
-                 /* b.addActionListener(e->{
+                /* b.addActionListener(e->{
                     
  DetailsC d = new DetailsC(r);
  d.show();
  });        
             }*/
-          
- }}
+
+            }
+        }
         // **********************************
-        searchField.addDataChangeListener((i1, i2) -> { 
-                    String t = searchField.getText();
-                    if(t.length() < 1) {
-                        malek.removeAll();
-                        list = list2;
-                        refreshForm();
-                    } else {
-                        t = t.toLowerCase();
-                        malek.removeAll();
-                        for (Reclamation r : list) {
-                            if ( r.getDesignation().indexOf(t) > -1 ) {
-                           MultiButton b = new MultiButton("");
-                            b.getStyle().setBgColor(ColorUtil.WHITE);
-                            b.getStyle().setBgTransparency(255);
-                            b.getUnselectedStyle().setBorder(Border.createGrooveBorder(1, ColorUtil.GRAY));
-                            String etat = "";
-                            if (r.isEtat() == true){
-                                etat = "traitée";
-                            } else etat = "non traitée";
-                            b.setTextLine2("Désignation \n:" + r.getDesignation());
-                            b.setTextLine3("Traité  " + etat);
-                            malek.add(b);
-                  
-                  
-                  
-                   b.addActionListener(e -> {
-                    Dialog d = new Dialog();
-                    d.setLayout(BoxLayout.y());
-                    d.getContentPane().setScrollableY(true);
-                    for (String cmd : commandes) {
-                        MultiButton mb = new MultiButton(cmd);
-                        d.add(mb);
-                        mb.addActionListener(ee -> {
+        searchField.addDataChangeListener((i1, i2) -> {
+            String t = searchField.getText();
+            if (t.length() < 1) {
+                malek.removeAll();
+                list = list2;
+                refreshForm();
+            } else {
+                t = t.toLowerCase();
+                malek.removeAll();
+                for (Reclamation r : list) {
+                    if (r.getDesignation().indexOf(t) > -1) {
+                        MultiButton b = new MultiButton("");
+                        b.getStyle().setBgColor(ColorUtil.WHITE);
+                        b.getStyle().setBgTransparency(255);
+                        b.getUnselectedStyle().setBorder(Border.createGrooveBorder(1, ColorUtil.GRAY));
+                        String etat = "";
+                        if (r.isEtat() == true) {
+                            etat = "traitée";
+                        } else {
+                            etat = "non traitée";
+                        }
+                        b.setTextLine2("Désignation \n:" + r.getDesignation());
+                        b.setTextLine3("Traité  " + etat);
+                        malek.add(b);
 
-                            switch (cmd) {
+                        b.addActionListener(e -> {
+                            Dialog d = new Dialog();
+                            d.setLayout(BoxLayout.y());
+                            d.getContentPane().setScrollableY(true);
+                            for (String cmd : commandes) {
+                                MultiButton mb = new MultiButton(cmd);
+                                d.add(mb);
+                                mb.addActionListener(ee -> {
 
-                                case "Modifier":
-                                    ReclamationUpdate  c = null;
-                            // c = new ReclamationUpdate(r.getIdm(), r.getDate(), r.getQuantite(), r.getSociete(), r.getProduit(), products, societies);
-                             c.show();
-                                    
-                                    break;
-                                default:
+                                    switch (cmd) {
 
-                            
-                                   
-                                 ReclamationDetails k = new ReclamationDetails(r);
-                                   k.show();
-                            
-                                   
-                                    
-                                    break;
+                                        case "Modifier":
+                                            ReclamationUpdate c = null;
+                                          
+                                            c.show();
+
+                                            break;
+                                        default:
+
+                                            ReclamationDetails k = new ReclamationDetails(r);
+                                            k.show();
+
+                                            break;
+                                    }
+
+                                });
                             }
+                            d.showPopupDialog(b);
 
-                            
                         });
                     }
-                    d.showPopupDialog(b);
-
-                });
-                            }
-                        }}
+                }
+            }
         });
         // **********************************
-                
 
-       
-        
         //accueilf.add(new InfiniteProgress());
         getToolbar().addMaterialCommandToRightBar(
-                   "", FontImage.MATERIAL_ADD, 6f,( ActionEvent e) -> {
-            try {
-                new AddReclamationForm(malek, products, categories).show();
-            } catch (IOException ex) {
-                System.out.println("err");            }
-        });
-             getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e->previous.showBack());
-   
+                "", FontImage.MATERIAL_ADD, 6f, (ActionEvent e) -> {
+                    try {
+                        new AddReclamationForm(malek, products, categories).show();
+                    } catch (IOException ex) {
+                        System.out.println("err");
+                    }
+                });
+        getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> a.show());
+
     }
+
     public void refreshForm() {
         for (Reclamation r : list) {
-                           MultiButton b = new MultiButton("");
-                           b.getStyle().setBgColor(ColorUtil.WHITE);
-                            b.getStyle().setBgTransparency(255);
-                            b.getUnselectedStyle().setBorder(Border.createGrooveBorder(1, ColorUtil.GRAY));
-                            String etat = "";
-                            if (r.isEtat() == true){
-                                etat = "traitée";
-                            } else etat = "non traitée";
-                            b.setTextLine2("Désignation \n:" + r.getDesignation());
-                            b.setTextLine3("Traité  " + etat);
-                            malek.add(b);
-                  
-                  
-                  
-                   b.addActionListener(e -> {
-                    Dialog d = new Dialog();
-                    d.setLayout(BoxLayout.y());
-                    d.getContentPane().setScrollableY(true);
-                    for (String cmd : commandes) {
-                        MultiButton mb = new MultiButton(cmd);
-                        d.add(mb);
-                        mb.addActionListener(ee -> {
+            MultiButton b = new MultiButton("");
+            b.getStyle().setBgColor(ColorUtil.WHITE);
+            b.getStyle().setBgTransparency(255);
+            b.getUnselectedStyle().setBorder(Border.createGrooveBorder(1, ColorUtil.GRAY));
+            String etat = "";
+            if (r.isEtat() == true) {
+                etat = "traitée";
+            } else {
+                etat = "non traitée";
+            }
+            b.setTextLine2("Désignation \n:" + r.getDesignation());
+            b.setTextLine3("Traité  " + etat);
+            malek.add(b);
 
-                            switch (cmd) {
+            b.addActionListener(e -> {
+                Dialog d = new Dialog();
+                d.setLayout(BoxLayout.y());
+                d.getContentPane().setScrollableY(true);
+                for (String cmd : commandes) {
+                    MultiButton mb = new MultiButton(cmd);
+                    d.add(mb);
+                    mb.addActionListener(ee -> {
 
-                                case "Modifier":
-                                    ReclamationUpdate  c = null;
-                            // c = new ReclamationUpdate(r.getIdm(), r.getDate(), r.getQuantite(), r.getSociete(), r.getProduit(), products, societies);
-                             c.show();
-                                    
-                                    break;
-                                default:
+                        switch (cmd) {
 
-                            
-                                   
-                                 ReclamationDetails k = new ReclamationDetails(r);
-                                   k.show();
-                            
-                                   
-                                    
-                                    break;
-                            }
+                            case "Modifier":
+                                ReclamationUpdate c = null;
+                                // c = new ReclamationUpdate(r.getIdm(), r.getDate(), r.getQuantite(), r.getSociete(), r.getProduit(), products, societies);
+                                c.show();
 
-                            
-                        });
-                    }
-                    d.showPopupDialog(b);
+                                break;
+                            default:
 
-                });
-                            
+                                ReclamationDetails k = new ReclamationDetails(r);
+                                k.show();
+
+                                break;
                         }
-    }
-    
-    public void delete(int id, Dialog d) {
-            Log.p("clicked too");
-                    ConnectionRequest con = new ConnectionRequest();
-                    con.setPost(false);
-                    con.setUrl("http://localhost/FINAL%20symfony/final/web/app_dev.php/delRec/"+id);
-                    con.addResponseListener(new ActionListener<NetworkEvent>() {
-                    @Override
-                    public void actionPerformed(NetworkEvent evt) {
-                    System.out.println("done comment!");
-                    byte[] data = (byte[]) evt.getMetaData();
-                    String s = new String(data);
-                    System.out.println("response : " + s);
-                    System.out.println("response : " + evt.getMetaData().equals("true"));
-                    if ( s.equals("\"success\"")) {
-                        reloadForm();
-                        Dialog.show("Confirmation", "deleted successfulyy", "Ok", null);
-                        d.dispose();
-                    }
-                    else {
-                    Dialog.show("Error", "not deleted", "Not Ok", null);
-                    }
-                    }
+
                     });
-                    NetworkManager.getInstance().addToQueue(con);
+                }
+                d.showPopupDialog(b);
+
+            });
+
         }
-    
-    
+    }
+
+    public void delete(int id, Dialog d) {
+        Log.p("clicked too");
+        ConnectionRequest con = new ConnectionRequest();
+        con.setPost(false);
+        con.setUrl("http://localhost/FINAL%20symfony/final/web/app_dev.php/delRec/" + id);
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                System.out.println("done comment!");
+                byte[] data = (byte[]) evt.getMetaData();
+                String s = new String(data);
+                System.out.println("response : " + s);
+                System.out.println("response : " + evt.getMetaData().equals("true"));
+                if (s.equals("\"success\"")) {
+                    reloadForm();
+                    Dialog.show("Confirmation", "votre reclamation a été supprimée avec succés", "Ok", null);
+                    d.dispose();
+                } else {
+                    Dialog.show("Error", "non supprimée", "Not Ok", null);
+                }
+            }
+        });
+        NetworkManager.getInstance().addToQueue(con);
+    }
+
     public void reloadForm() {
-         list2.clear();
-         list2 = myService.getAllrecs();
-         malek.removeAll();
-         list.clear();
-         list = list2;
-         if (list.isEmpty()) {
-            SpanLabel lb = new SpanLabel(" acune reclamation !");
-           malek.add(lb);
+        list2.clear();
+        list2 = myService.getAllrecs();
+        malek.removeAll();
+        list.clear();
+        list = list2;
+        if (list.isEmpty()) {
+            SpanLabel lb = new SpanLabel(" aucune reclamation !");
+            malek.add(lb);
         } else {
 
             for (Reclamation r : list) {
                 MultiButton b = new MultiButton("");
-                /*
-                int size = Display.getInstance().convertToPixels(5, true);
-                EncodedImage placeholder = EncodedImage.createFromImage(icon, focusScrolling).createFromImage(Image.createImage(50, 200 / 5, 0xffff0000), true);
-                URLImage background = URLImage.createToStorage(placeholder, "400px-AGameOfThrones.jpg",
-        "http://awoiaf.westeros.org/images/thumb/9/93/AGameOfThrones.jpg/400px-AGameOfThrones.jpg");
-                b.setIcon(background);
-                */
-                /*
-                FontImage fi = FontImage.createFixed("" + FontImage.MATERIAL_PERSON, FontImage.getMaterialDesignFont(), 0xff, size, size);
-                b.setIcon(fi);*/
+
                 b.getStyle().setBgColor(ColorUtil.WHITE);
                 b.getStyle().setBgTransparency(255);
                 b.getUnselectedStyle().setBorder(Border.createGrooveBorder(1, ColorUtil.GRAY));
                 String etat = "";
-                if (r.isEtat() == true){
+                if (r.isEtat() == true) {
                     etat = "traitée";
-                } else etat = "non traitée";
+                } else {
+                    etat = "non traitée";
+                }
                 b.setTextLine2("Désignation \n:" + r.getDesignation());
-                b.setTextLine3("Etat  " + etat);
-                  malek.add(b);
-                  
-                  
-                  
-                   b.addActionListener(e -> {
-                       if (r.isEtat()== true) {
-                           ReclamationDetails k = new ReclamationDetails(r);
-                           k.show();
-                       } else {
-                    Dialog d = new Dialog();
-                    d.setLayout(BoxLayout.y());
-                    d.getContentPane().setScrollableY(true);
-                    for (String cmd : commandes) {
-                        MultiButton mb = new MultiButton(cmd);
-                        d.add(mb);
-                        mb.addActionListener(ee -> {
+                b.setTextLine3("Etat : " + etat);
+                malek.add(b);
 
-                            switch (cmd) {
+                b.addActionListener(e -> {
+                    if (r.isEtat() == true) {
+                        ReclamationDetails k = new ReclamationDetails(r);
+                        k.show();
+                    } else {
+                        Dialog d = new Dialog();
+                        d.setLayout(BoxLayout.y());
+                        d.getContentPane().setScrollableY(true);
+                        for (String cmd : commandes) {
+                            MultiButton mb = new MultiButton(cmd);
+                            d.add(mb);
+                            mb.addActionListener(ee -> {
 
-                                case "Modifier":
-                                ReclamationUpdate  c = null;
-                            {
-                                try {
-                                    c = new ReclamationUpdate(r, products, categories);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
+                                switch (cmd) {
+
+                                    case "Modifier":
+                                        ReclamationUpdate c = null;
+                                         {
+                                            try {
+                                                c = new ReclamationUpdate(r, products, categories);
+                                            } catch (IOException ex) {
+                                                ex.printStackTrace();
+                                            }
+                                        }
+                                        c.show();
+
+                                        break;
+                                    case "Supprimer":
+                                        delete(r.getId(), d);
+                                        break;
+                                    default:
+
+                                          ReclamationDetails k = new ReclamationDetails(r);
+                                        k.show();
+
+                                        break;
                                 }
-                            }
-                                c.show();
-                                    
-                                    break;
-                                case "Supprimer":   
-                                    delete(r.getId(), d);  
-                                    break;
-                                default:
 
-                            
-                                   
-                                 ReclamationDetails k = new ReclamationDetails(r);
-                                   k.show();
-                            
-                                   
-                                    
-                                    break;
-                            }
-
-                            
-                        });
+                            });
+                        }
+                        d.showPopupDialog(b);
                     }
-                    d.showPopupDialog(b);
-                   }
                 });
-          
- }}
-     }
-}
 
+            }
+        }
+    }
+}

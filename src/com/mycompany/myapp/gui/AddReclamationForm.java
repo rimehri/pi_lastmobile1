@@ -41,8 +41,8 @@ import java.util.ArrayList;
  */
 public class AddReclamationForm  extends Form{
 Form me ;
-     ComboBox combo;
-       public ArrayList<CategorieR> tasks;
+     
+      
        ArrayList<produit> list = new ArrayList<>() ;
        ArrayList<CategorieR> list2 = new ArrayList<>() ;
        
@@ -52,21 +52,21 @@ Form me ;
         ArrayList<String> stringsArray2;
         ServiceReclamation myService = new ServiceReclamation();
         stringsArray = new ArrayList<String>();
-        if ( products.size() > 0 ) {
+        /*     if ( products.size() > 0 ) {
         } else {
-            list = myService.parseProducts();
+        list = myService.parseProducts();
         }
         if ( categories.size() > 0 ) {
         } else {
-            list2 = myService.parseCategories();
-        }
+        list2 = myService.parseCategories();
+        }*/
         stringsArray2 = new ArrayList<String>();
         
         me=this;
-        setTitle("Add  a new reclamation");
+        setTitle("Passer une reclamation");
         setLayout(BoxLayout.y());
-        Label catLabel = new Label("selctionner categorie");
-        Label prodLabel = new Label("selctionner produit");
+        Label catLabel = new Label("selectionner categorie");
+        Label prodLabel = new Label("selectionner produit");
         TextField designation= new TextField("", "désignation");
         TextField description = new TextField("", "Description", 20, TextArea.ANY);
         description.setMaxSize(300);
@@ -75,9 +75,6 @@ Form me ;
          Picker stringPicker2 = new Picker();
         stringPicker.setType(Display.PICKER_TYPE_STRINGS);
         stringPicker2.setType(Display.PICKER_TYPE_STRINGS);
-        //stringPicker.setStrings("A Game of Thrones", "A Clash Of Kings", "A Storm Of Swords", "A Feast For Crows",
-        //"A Dance With Dragons", "The Winds of Winter", "A Dream of Spring");
-        //stringPicker.setSelectedString("A Game of Thrones");
         
         me.getStyle().setBgColor(ColorUtil.WHITE);
         me.getStyle().setBgTransparency(255);
@@ -116,15 +113,15 @@ Form me ;
         
                   
 
-       Button btnValider = new Button("Add Reclamation");
+       Button btnValider = new Button("Ajouter Reclamation");
         addAll(designation,description,prodLabel,stringPicker,catLabel,stringPicker2,btnValider);
         btnValider.addActionListener((ActionListener) new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 int idp = 20;
                 int idc = 20;
-                if ((designation.getText().length()==0) || (description.getText().length()==0) || ( stringPicker.getSelectedStringIndex() >= 0 ) || (stringPicker2.getSelectedStringIndex() >= 0 )) {
-                    Dialog.show("Alert", "Please fill all the fields", new Command("OK"));
+                if ((designation.getText().length()==0) || (description.getText().length()==0) ) {
+                    Dialog.show("Alert", "Veuillez remplir vos champs svp", new Command("OK"));
                 }
                 else
                 {
@@ -146,8 +143,9 @@ Form me ;
                     System.out.println("response : " + s);
                     System.out.println("response : " + evt.getMetaData().equals("true"));
                     if ( s.equals("\"success\"")) {
-                    Dialog.show("Confirmation", "ajout ok", "Ok", null);
-                    Mail m = new Mail();
+                    Dialog.show("Confirmation", "Reclamation ajoutée avec succés", "Ok", null);
+                  
+                  //  Mail m = new Mail();
                     // previous.showBack();
                     ListReclamationForm l = new ListReclamationForm(me);
                     l.show();
@@ -163,64 +161,7 @@ Form me ;
                 }
             }
         });
-        /*
-       btnValider.addActionListener((ActionListener) new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                int idp = products.get(stringPicker.getSelectedStringIndex()).getIdp();
-                int idc = categories.get(stringPicker2.getSelectedStringIndex()).getIdc();
-                if ((designation.getText().length()==0)) {
-                    showToast("Veuillez remplir tous les champs");
-                }
-                else
-                {
-                    ConnectionRequest con = new ConnectionRequest();
-                    con.setPost(false);
-                    String desi = designation.getText();
-                    String desc = description.getText();
-                    int userId = 1;
-                    con.setUrl("http://192.168.93.1/rimehService/MalekService/addRec.php?idc="+idc+"&idp="+idp+"&designation="+desi+"&description="+desc+"&user="+userId);
-                    con.addResponseListener(new ActionListener<NetworkEvent>() {
-                    @Override
-                    public void actionPerformed(NetworkEvent evt) {
-                    System.out.println("done comment!");
-                    byte[] data = (byte[]) evt.getMetaData();
-                    String s = new String(data);
-                    System.out.println("response : " + s);
-                    System.out.println("response : " + evt.getMetaData().equals("true"));
-                    if ( s.equals("\"success\"")) {
-                    Dialog.show("Confirmation", "ajout ok", "Ok", null);
-                    Mail m = new Mail();
-                    // previous.showBack();
-                    ListReclamationForm l = new ListReclamationForm(me);
-                    l.show();
-                    // to do c.refreshTheme();
-                    }
-                    else {
-                    Dialog.show("Error", "ajout not ok", "Not Ok", null);
-                    }
-                    }
-                    });
-                    NetworkManager.getInstance().addToQueue(con);
-                }
-            }
-        });
-       */
-               /*
-           CommandeF t = new CommandeF(date.getDate(),Integer.parseInt(soc.getText()));
-        
-                       if( ServiceCommandef.getInstance().addcomm2(String.valueOf(date.getDate()), quantite.getText(), soc.getText(), prod.getText() ))
-                           Dialog.show("Success","Connection accepted",new Command("OK"));
-                       else
-                           Dialog.show("ERROR", "Server error", new Command("OK"));
-                       
-                    } catch (NumberFormatException e) {
-                       Dialog.show("ERROR", "Status must be a number", new Command("OK"));
-                   }
-                    
-           }
-                
-                });*/
+   
       
          
     
@@ -233,12 +174,12 @@ Form me ;
             
            
            }
-       private void showToast(String text) {
-        Image errorImage = FontImage.createMaterial(FontImage.MATERIAL_ERROR, UIManager.getInstance().getComponentStyle("Title"), 4);
-        ToastBar.Status status = ToastBar.getInstance().createStatus();
-        status.setMessage(text);
-        status.setIcon(errorImage);
-        status.setExpires(2000);
-        status.show();
-    }
+      /*  private void showToast(String text) {
+      Image errorImage = FontImage.createMaterial(FontImage.MATERIAL_ERROR, UIManager.getInstance().getComponentStyle("Title"), 4);
+      ToastBar.Status status = ToastBar.getInstance().createStatus();
+      status.setMessage(text);
+      status.setIcon(errorImage);
+      status.setExpires(2000);
+      status.show();
+      }*/
 }

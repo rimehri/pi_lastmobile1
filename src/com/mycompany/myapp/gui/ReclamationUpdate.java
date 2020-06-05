@@ -38,7 +38,7 @@ public class ReclamationUpdate extends Form{
      
      
      Form me ;
-     ComboBox combo;
+     
      ArrayList<produit> list = new ArrayList<>() ;
      ArrayList<CategorieR> list2 = new ArrayList<>() ;
       Form previous = Display.getInstance().getCurrent();
@@ -61,16 +61,16 @@ public class ReclamationUpdate extends Form{
         stringsArray = new ArrayList<String>();
         stringsArray2 = new ArrayList<String>();
         ServiceReclamation myService = new ServiceReclamation();
-        if ( products.size() > 0 ) {
+        /*    if ( products.size() > 0 ) {
         } else {
-            list = myService.parseProducts();
-            Log.p("proood = " + list);
+        list = myService.parseProducts();
+        Log.p("proood = " + list);
         }
         if ( categories.size() > 0 ) {
         } else {
-            list2 = myService.parseCategories();
-            Log.p("proood = " + list);
-        }
+        list2 = myService.parseCategories();
+        Log.p("proood = " + list);
+        }*/
            //*********************
         me=this;
         setTitle("Modifier reclamation");
@@ -87,8 +87,8 @@ public class ReclamationUpdate extends Form{
        getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e->previous.showBack());
        
        //******************
-       Label catLabel = new Label("selctionner catégorie");
-        Label prodLabel = new Label("selctionner produit");
+       Label catLabel = new Label("selectionner catégorie");
+        Label prodLabel = new Label("selectionner produit");
 
          Picker stringPicker = new Picker();
          Picker stringPicker2 = new Picker();
@@ -142,7 +142,7 @@ public class ReclamationUpdate extends Form{
            int idc = categories.get(indexS).getIdc();
            int idp = products.get(indexP).getIdp();
            if ((designation.getText().length()==0) || (description.getText().length()==0))
-           Dialog.show("Alert", "Please fill all the fields", new Command("OK"));
+           Dialog.show("Alert", "Veuillez remplir vos champs svp", new Command("OK"));
            else
            {
                int identifiant = rec.getId();
@@ -151,7 +151,7 @@ public class ReclamationUpdate extends Form{
                String newDesi = designation.getText();
                String newDesc = description.getText();
                con.setUrl("http://localhost/FINAL%20symfony/final/web/app_dev.php/updRec/"+identifiant+"/"+idp+"/"+idc+"/"+newDesc+"/"+newDesi);
-               //con.setUrl("http://192.168.93.1/rimehService/MalekService/recUpd.php?id="+identifiant+"&idc="+idc+"&idp="+idp+"&designation="+newDesi+"&description="+newDesc);
+              
                con.addResponseListener(new ActionListener<NetworkEvent>() {
                     @Override
                     public void actionPerformed(NetworkEvent evt) {
@@ -160,11 +160,9 @@ public class ReclamationUpdate extends Form{
                         String s = new String(data);
                         Log.p("response : " + s);
                         if ( s.equals("\"success\"")) {
-                            Dialog.show("Confirmation", "modified successfully", "Ok", null);
-                            ListReclamationForm f2 = new ListReclamationForm(me);
-                    f2.show();
-                            //commandeaff2 c = new commandeaff2(me);
-                            //c.show();
+                            Dialog.show("Confirmation", "cette reclamation est modifiée avec succés", "Ok", null);
+                             ListReclamationForm l = new ListReclamationForm(me);
+                             l.show();
                         }
                         else {
                             Dialog.show("Error", "not modified", "Not Ok", null);
