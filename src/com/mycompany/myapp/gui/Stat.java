@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.mycompany.myapp.gui;
 
 import com.codename1.charts.ChartComponent;
@@ -26,10 +22,7 @@ import com.codename1.ui.layouts.BorderLayout;
 import com.mycompany.entities.societe;
 import java.util.ArrayList;
 
-/**
- *
- * @author LENOVO
- */
+
 public class Stat extends Form implements IDemoChart{
     private boolean drawOnMutableImage;
     Font largeFont = Font.createSystemFont(Font.FACE_SYSTEM, Font.SIZE_LARGE, Font.STYLE_PLAIN);
@@ -38,13 +31,8 @@ public class Stat extends Form implements IDemoChart{
     
     public Stat(ArrayList<societe> societies) {
         getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e->h.show());
-        /*
-        for (societe r: societies) {
-            Log.p("tri22 : " + r.getVue());
-        }
-        Log.p("finish22");*/
+       
         this.add(execute(societies));
-        //this.add(createPieChartForm(societies));
     }
 private DefaultRenderer buildCategoryRenderer(int[] colors) {
     DefaultRenderer renderer = new DefaultRenderer();
@@ -71,7 +59,7 @@ protected CategorySeries buildCategoryDataset(String title, double[] values) {
     int k = 0;
     for (double value : values) {
         //series.add("Project " + ++k, value);
-        series.add("Fournisseur" + ++k, value);
+        series.add("" + ++k, value);
     }
 
     return series;
@@ -215,18 +203,6 @@ protected Form wrap(String title, Component c){
       
       return f;
   }
-/*
-    @Override
-    public String getDesc() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    */
-/*
-    @Override
-    public String getDesc() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-*/
    
 }
