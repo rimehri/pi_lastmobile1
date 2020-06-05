@@ -61,7 +61,9 @@ public class Homefournisseur extends Form{
         accueil a = new accueil();
     public Homefournisseur(Form previous) {
         accueilf=this;
-        setTitle("Fournisseurs");
+        setTitle(" les Fournisseurs");
+        
+        setTitle(" les Fournisseurs");
         setLayout(BoxLayout.y());
         Button btnValider = new Button("Consulter statistique");
         Toolbar.setGlobalToolbar(true);
