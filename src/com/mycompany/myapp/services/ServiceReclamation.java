@@ -115,9 +115,7 @@ public class ServiceReclamation {
     }
 
     public ArrayList<Reclamation> getAllrecs() {
-        //int userId = userConnecte.getId();        
-        //String url = "http://localhost/FINAL%20symfony/final/web/app_dev.php/listrec/"+userId;
-        String url = "http://localhost/FINAL%20symfony/final/web/app_dev.php/listrec/3";
+        String url = "http://localhost/FINAL%20symfony/final/web/app_dev.php/listrec/1";
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -137,71 +135,71 @@ public class ServiceReclamation {
         return recs;
     }
     
-    public ArrayList<produit> parseProducts(){
-        products = new ArrayList<>();
-        ConnectionRequest connectionRequest = new ConnectionRequest() {
-            @Override
-            protected void readResponse(InputStream in) throws IOException {
-
-                JSONParser json = new JSONParser();
-                try {
-                    Reader reader = new InputStreamReader(in, "UTF-8");
-
-                    Map<String, Object> data = json.parseJSON(reader);
-                    List<Map<String, Object>> content = (List<Map<String, Object>>) data.get("root");
-                    if ( products.size() > 0) {
-                        products.clear();
-                  }
-                    Log.p("size content" + content.size());
-                    for (Map<String, Object> obj : content) {
-                        produit p = new produit();
-                        p.setIdp(Integer.parseInt(obj.get("id").toString()));
-                        p.setNom((String) obj.get("nom"));
-                        p.setPrix(Integer.parseInt(obj.get("prix").toString()));
-                        products.add(p);
-                    }
-                } catch (IOException err) {
-                    Log.e(err);
-                }
-            }
-        };
-        connectionRequest.setUrl("http://192.168.93.1/rimehService/MalekService/allProd.php");
-        NetworkManager.getInstance().addToQueue(connectionRequest);
-        Log.p("proooduuu = " + products);
-        return products;
-    }
+    /*    public ArrayList<produit> parseProducts(){
+    products = new ArrayList<>();
+    ConnectionRequest connectionRequest = new ConnectionRequest() {
+    @Override
+    protected void readResponse(InputStream in) throws IOException {
     
-    public ArrayList<CategorieR> parseCategories(){
-        categories = new ArrayList<>();
-        ConnectionRequest connectionRequest = new ConnectionRequest() {
-            @Override
-            protected void readResponse(InputStream in) throws IOException {
-
-                JSONParser json = new JSONParser();
-                try {
-                    Reader reader = new InputStreamReader(in, "UTF-8");
-
-                    Map<String, Object> data = json.parseJSON(reader);
-                    List<Map<String, Object>> content = (List<Map<String, Object>>) data.get("root");
-                    if ( categories.size() > 0) {
-                        categories.clear();
-                  }
-                    Log.p("size content" + content.size());
-                    for (Map<String, Object> obj : content) {
-                        CategorieR c = new CategorieR();
-                        c.setIdc(Integer.parseInt(obj.get("id").toString()));
-                        c.setNomR((String) obj.get("nom"));
-                        categories.add(c);
-                    }
-                } catch (IOException err) {
-                    Log.e(err);
-                }
-            }
-        };
-        connectionRequest.setUrl("http://192.168.93.1/rimehService/MalekService/allCat.php");
-        NetworkManager.getInstance().addToQueue(connectionRequest);
-        return categories;
+    JSONParser json = new JSONParser();
+    try {
+    Reader reader = new InputStreamReader(in, "UTF-8");
+    
+    Map<String, Object> data = json.parseJSON(reader);
+    List<Map<String, Object>> content = (List<Map<String, Object>>) data.get("root");
+    if ( products.size() > 0) {
+    products.clear();
     }
+    Log.p("size content" + content.size());
+    for (Map<String, Object> obj : content) {
+    produit p = new produit();
+    p.setIdp(Integer.parseInt(obj.get("id").toString()));
+    p.setNom((String) obj.get("nom"));
+    p.setPrix(Integer.parseInt(obj.get("prix").toString()));
+    products.add(p);
+    }
+    } catch (IOException err) {
+    Log.e(err);
+    }
+    }
+    };
+    connectionRequest.setUrl("http://192.168.93.1/rimehService/MalekService/allProd.php");
+    NetworkManager.getInstance().addToQueue(connectionRequest);
+    Log.p("proooduuu = " + products);
+    return products;
+    }*/
+    
+    /*  public ArrayList<CategorieR> parseCategories(){
+    categories = new ArrayList<>();
+    ConnectionRequest connectionRequest = new ConnectionRequest() {
+    @Override
+    protected void readResponse(InputStream in) throws IOException {
+    
+    JSONParser json = new JSONParser();
+    try {
+    Reader reader = new InputStreamReader(in, "UTF-8");
+    
+    Map<String, Object> data = json.parseJSON(reader);
+    List<Map<String, Object>> content = (List<Map<String, Object>>) data.get("root");
+    if ( categories.size() > 0) {
+    categories.clear();
+    }
+    Log.p("size content" + content.size());
+    for (Map<String, Object> obj : content) {
+    CategorieR c = new CategorieR();
+    c.setIdc(Integer.parseInt(obj.get("id").toString()));
+    c.setNomR((String) obj.get("nom"));
+    categories.add(c);
+    }
+    } catch (IOException err) {
+    Log.e(err);
+    }
+    }
+    };
+    connectionRequest.setUrl("http://192.168.93.1/rimehService/MalekService/allCat.php");
+    NetworkManager.getInstance().addToQueue(connectionRequest);
+    return categories;
+    }*/
     
     
     
