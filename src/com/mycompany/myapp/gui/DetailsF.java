@@ -32,7 +32,7 @@ public class DetailsF extends Form{
   
        
     public DetailsF(societe s) {
-        
+        //fkfjkjhjl
        current=this;
           Form previous = Display.getInstance().getCurrent();
           SpanLabel mail = new SpanLabel(""+s.getEmail());
@@ -51,7 +51,7 @@ public class DetailsF extends Form{
                         //createTxtName(c),
                         new Label("Email", ""),
                         new Label(""+s.getEmail()),
-                        new Label("Num Tel:", ""),
+                        new Label("Num Telephone:", ""),
                         //createTxtName(c),
                         new Label(""+s.getTel())
                         //createTxtAge(c)
